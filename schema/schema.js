@@ -1,51 +1,22 @@
 const graphql = require('graphql')
 const _ = require('lodash')
+const Show = require('../models/show')
 
 const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID, GraphQLInt, GraphQLList } = graphql
 
-let movies = [
-    { title: 'Star Wars', genre: 'Sci-Fi', id: '1', userId: '1' },
-    { title: 'Knives Out', genre: 'Mystery', id: '2', userId: '2' },
-    { title: 'Titanic', genre: 'Romance', id: '3', userId: '2'},
-    { title: 'Lion King', genre: 'Animated', id: '4', userId: '1'}
-]
-
-
-let users = [
-    { name: 'David', age: 33, id: '1'},
-    { name: 'Ashley', age: 42, id: '2'}
-]
-
 // Constructing movie object type
-const MovieType = new GraphQLObjectType({
-    name: 'Movie',
-    fields: () => ({
-        id: { type: GraphQLID },
-        title: { type: GraphQLString },
-        genre: { type: GraphQLString },
-        user: {
-            type: UserType,
-            resolve(parent, args) {
-                console.log(parent)
-                return _.find(users, { id: parent.userId } )
-            }
-        }
-    })
-})
-
-// Constructing user object type
-const UserType = new GraphQLObjectType({
-    name: 'User',
+const ShowType = new GraphQLObjectType({
+    name: 'Show',
     fields: () => ({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
-        age: { type: GraphQLInt },
-        movie: {
-            type: new GraphQLList(MovieType),
-            resolve(parent, args) {
-                return _.filter(movies, { userId: parent.id })
-            }
-        }
+        genre: { type: GraphQLString },
+        year: { type: GraphQLInt },
+        poster: { type: GraphQLString },
+        // resolve(parent, args) {
+        //     // return _.find(users, { id: parent.userId } )
+        //     return Show.findById(args.id)
+        // }   
     })
 })
 
@@ -53,39 +24,50 @@ const UserType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
-        movie: {
-            type: MovieType,
+        show: {
+            type: ShowType,
             args: { id: { type: GraphQLID } },
             resolve(parent, args) {
-                args.id
                 // code to get data from database
-                return _.find(movies, { id: args.id })
+                // return _.find(shows, { id: args.id })
+                return Show.findById(args.id)
             }
         },
-        user: {
-            type: UserType,
-            args: { id: { type: GraphQLID } },
+        shows: {
+            type: new GraphQLList(ShowType),
             resolve(parent, args) {
-                args.id
-                // code to get data from database
-                return _.find(users, { id: args.id })
+                // return shows
+                return Show.find({})
             }
-        },
-        movies: {
-            type: new GraphQLList(MovieType),
+        }
+    }
+})
+
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+        addShow: {
+            type: ShowType,
+            args: {
+                name: { type: GraphQLString },
+                genre: { type: GraphQLString },
+                year: { type: GraphQLInt },
+                poster: { type: GraphQLString },
+            },
             resolve(parent, args) {
-                return movies
-            }
-        },
-        users: {
-            type: new GraphQLList(UserType),
-            resolve(parent, args) {
-                return users
+                let show = new Show({
+                    name: args.name,
+                    genre: args.genre,
+                    year: args.year,
+                    poster: args.poster,
+                })
+                return show.save()
             }
         }
     }
 })
 
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation
 })
