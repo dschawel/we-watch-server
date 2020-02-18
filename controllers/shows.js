@@ -53,16 +53,16 @@ router.post('/', (req, res) => {
 })
 
 // Delete a show
-// router.delete('/:_id', (req, res) => {
-//     db.Show.delete({ user: req.user._id, _id: req.params._id })
-//     .then(() => {
-//         console.log('success?')
-//         res.send({message: 'Success'})
-//     })
-//     .catch(err => {
-//         console.log('Error when deleting show')
-//         res.status(500).send({ message: 'Server error' })
-//     })
-// })
+router.delete('/:showId', (req, res) => {
+    db.Show.remove({ user: req.user._id, _id: req.params.showId })
+    .then(() => {
+        console.log('success?')
+        res.send({message: 'Success'})
+    })
+    .catch(err => {
+        console.log('Error when deleting show')
+        res.status(500).send({ message: 'Server error' })
+    })
+})
 
 module.exports = router
