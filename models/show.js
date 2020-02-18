@@ -5,8 +5,8 @@ const showSchema = new mongoose.Schema({
     genre: String,
     year: Number,
     poster: String,
-    // userId: String
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 })
 
 
-module.exports = mongoose.model('show', showSchema)
+module.exports = mongoose.model('Show', showSchema)
