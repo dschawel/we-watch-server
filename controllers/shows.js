@@ -12,7 +12,7 @@ router.get('/:query', (req, res) => {
 })
 .then(response => {
     // console.log(response.data)
-    res.send(response.data)
+    res.send(JSON.stringify(response.data))
 })
     // res.render('home', { 
     //     movies: data.Search || [], 
