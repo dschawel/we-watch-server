@@ -5,7 +5,7 @@ const showSchema = new mongoose.Schema({
     genre: String,
     year: Number,
     poster: String,
-    userId: String
+    // userId: String
 })
 
 
