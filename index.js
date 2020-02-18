@@ -6,6 +6,9 @@ let expressJwt = require('express-jwt')
 // let graphqlHTTP = require('express-graphql')
 let morgan = require('morgan')
 let rowdyLogger = require('rowdy-logger')
+
+const bodyParser = require('body-parser')
+
 // let schema = require('./schema/schema')
 
 // Instantiate app
@@ -18,6 +21,8 @@ app.use(cors())
 app.use(express.urlencoded({ extended: false })) // Accept form data
 app.use(express.json()) // Accept data from fetch (or any AJAX call)
 
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 // Routes
 // app.use('/graphql', graphqlHTTP({
 //   schema,

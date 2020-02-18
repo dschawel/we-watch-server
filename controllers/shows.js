@@ -1,23 +1,24 @@
 let db = require('../models')
 let router = require('express').Router()
+const axios = require('axios')
 
-// router.get('/', (req, res) => {
-//     let q = req.body.query || 'star'
-//     console.log(q)
-//     request(`http://www.omdbapi.com/?s=${q}&apikey=${process.env.OMDB_API_KEY}`, (error, response, body) => {
-//     if (error) {
-//         return res.send('error')
-//     }
-//     console.log(JSON.parse(body))
-//     let data = JSON.parse(body)
-//     res.send(data)
-//     // res.render('home', { 
-//     //     movies: data.Search || [], 
-//     //     total: data.totalResults || 0,
-//     //     q: q
-//     //     })
-//     })
-// })
+router.get('/:query', (req, res) => {
+    let q = JSON.stringify(req.params.query)
+    console.log(q)
+    axios.get(`http://www.omdbapi.com/?s=${q}&apikey=${process.env.OMDB_API_KEY}`, (error, response, body) => {
+    if (error) {
+        return res.send('error')
+    }
+})
+.then(response => {
+    // console.log(response.data)
+    res.send(response.data)
+})
+    // res.render('home', { 
+    //     movies: data.Search || [], 
+    //     total: data.totalResults || 0,
+    //     q: q
+    //     })
 
 // Show all shows associated with a user
 router.get('/', (req, res) => {
@@ -63,6 +64,8 @@ router.delete('/:showId', (req, res) => {
         console.log('Error when deleting show')
         res.status(500).send({ message: 'Server error' })
     })
+
 })
+
 
 module.exports = router
