@@ -1,9 +1,9 @@
 let mongoose = require('mongoose')
 
 const showSchema = new mongoose.Schema({
-    name: String,
-    genre: String,
-    year: Number,
+    title: String,
+    type: String,
+    year: String,
     poster: String,
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 })
