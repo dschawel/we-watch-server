@@ -8,17 +8,18 @@ router.get('/:query', (req, res) => {
     axios.get(`http://www.omdbapi.com/?s=${q}&apikey=${process.env.OMDB_API_KEY}`, (error, response, body) => {
     if (error) {
         return res.send('error')
-    }
-})
-.then(response => {
-    // console.log(response.data)
-    res.send(response.data)
-})
+        }
+    })
+    .then(response => {
+        // console.log(response.data)
+        res.send(response.data)
+    })
     // res.render('home', { 
     //     movies: data.Search || [], 
     //     total: data.totalResults || 0,
     //     q: q
     //     })
+})
 
 // Show all shows associated with a user
 router.get('/', (req, res) => {

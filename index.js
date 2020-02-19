@@ -42,6 +42,10 @@ app.use('/shows', expressJwt({
   secret: process.env.JWT_SECRET
 }), require('./controllers/shows'))
 
+app.use('/friends', expressJwt({
+  secret: process.env.JWT_SECRET
+}), require('./controllers/friends'))
+
 app.get('*', (req, res) => {
   res.status(404).send({ message: 'Not Found' })
 })
