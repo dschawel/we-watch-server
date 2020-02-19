@@ -6,7 +6,9 @@ let expressJwt = require('express-jwt')
 // let graphqlHTTP = require('express-graphql')
 let morgan = require('morgan')
 let rowdyLogger = require('rowdy-logger')
+
 const bodyParser = require('body-parser')
+
 // let schema = require('./schema/schema')
 
 // Instantiate app
