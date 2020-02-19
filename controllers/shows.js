@@ -6,6 +6,7 @@ router.get('/:query', (req, res) => {
     let q = JSON.stringify(req.params.query)
     console.log(q)
     axios.get(`http://www.omdbapi.com/?s=${q}&apikey=${process.env.OMDB_API_KEY}`, (error, response, body) => {
+
         if (error) {
             return res.send('error')
         }
@@ -14,6 +15,7 @@ router.get('/:query', (req, res) => {
     res.send(JSON.stringify(response.data))
     })
 })
+
 
 
 

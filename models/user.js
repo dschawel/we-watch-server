@@ -22,7 +22,7 @@ let userSchema = new mongoose.Schema({
     maxlength: 32
   },
   profileUrl: String,
-  // friends: []
+  friends: [String]
 })
 
 // Use bcrypt to hash password
