@@ -8,3 +8,4 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/wewatch', {
 console.log('connected to database')
 
 module.exports.User = require('./user')
+module.exports.Show = require('./show')
