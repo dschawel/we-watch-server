@@ -16,9 +16,6 @@ router.get('/:query', (req, res) => {
     })
 })
 
-
-
-
 // Show all shows associated with a user
 router.get('/', (req, res) => {
     db.Show.find({ user: req.user._id })

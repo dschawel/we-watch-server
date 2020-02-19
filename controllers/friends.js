@@ -17,7 +17,7 @@ router.post('/search', (req, res) => {
     // if (searchFriend == req.user.firstname) {
     //     searchFriend = null
     // }
-    db.User.findOne({ searchFriend })
+    db.User.findOne({ firstname: searchFriend })
     if (!searchFriend) {
         res.status(404).send({ message: 'No one matches that name'})
     } else {
