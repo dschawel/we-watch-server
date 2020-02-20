@@ -2,21 +2,19 @@ let db = require('../models')
 let router = require('express').Router()
 let jwt = require('jsonwebtoken')
 
-// router.get('/search', (req, res) => {
-//     db.User.find({ firstname: req.user.firstname })
-//     if (!user) {
-//         res.status(404).send({ message: 'No one matches that name'})
-//     } else {
-//         res.status(200).send(user)
-//     }
-// })
-
 router.get('/', (req, res) => {
     db.User.findOne({_id : req.user._id}).populate('friends')
     .then(User => {
         console.log(User.firstname, User.lastname)
         console.log(User.friends)
         res.send({friends: User.friends})
+    })
+})
+
+router.get('/:_id', (req, res) => {
+    db.User.findOne({_id: req.params._id})
+    .then(friend => {
+        res.send({friend})
     })
 })
 
