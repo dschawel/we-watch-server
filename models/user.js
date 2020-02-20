@@ -1,6 +1,6 @@
 let bcrypt = require('bcryptjs')
 let mongoose = require('mongoose')
-
+const Schema = mongoose.Schema;
 
 let userSchema = new mongoose.Schema({
   firstname: {
@@ -22,7 +22,7 @@ let userSchema = new mongoose.Schema({
     maxlength: 32
   },
   profileUrl: String,
-  friends: [String]
+  friends: [{type: Schema.Types.ObjectId, ref: 'User'}]
 })
 
 // Use bcrypt to hash password

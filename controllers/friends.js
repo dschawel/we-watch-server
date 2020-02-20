@@ -11,6 +11,15 @@ let jwt = require('jsonwebtoken')
 //     }
 // })
 
+router.get('/', (req, res) => {
+    db.User.findOne({_id : req.user._id}).populate('friends')
+    .then(User => {
+        console.log(User.firstname, User.lastname)
+        console.log(User.friends)
+        res.send({friends: User.friends})
+    })
+})
+
 let checkFriends = (foundId, arr) => {
     for(let i = 0; i < arr.length; i++){
         if (arr[i] == foundId){
