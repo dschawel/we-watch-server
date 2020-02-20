@@ -35,7 +35,6 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     db.Show.create({
         title: req.body.title,
-        // genre: req.body.genre,
         year: req.body.year,
         poster: req.body.poster,
         type: req.body.type,
