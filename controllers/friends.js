@@ -14,7 +14,12 @@ router.get('/', (req, res) => {
 router.get('/:_id', (req, res) => {
     db.User.findOne({_id: req.params._id})
     .then(friend => {
-        res.send({friend})
+        console.log('Found friend', friend)
+        db.Show.find({ user: friend._id })
+        .then((show) => {
+            console.log('Found show:', show)
+            res.send({show, friend})
+        })
     })
 })
 
