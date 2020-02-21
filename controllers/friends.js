@@ -50,29 +50,14 @@ router.post('/search', (req, res) => {
         else {
             db.User.findOneAndUpdate({_id: req.user._id}, { $push: { friends: found._id } })
             .then(user => {
-                console.log('big league:', user)
                 let token = jwt.sign(user.toJSON(), process.env.JWT_SECRET, {
                     expiresIn: 60 * 60 * 1
                 })
                 res.status(200).send({token})
-                
             })
         }
     })
 })
 
 
-// find the logged in user FIRST
-//When you succeed in adding a friend, send token back (user altered)
-// let token: string = jwt.sign(user.toJSON(), process.env.REACT_APP_JWT_SECRET, {
-//     expiresIn: 60 * 60 * 1 //Expires in 1 hour
-// })
-//   res.send({ token })
-// <-- Front end update token
-
-
-
-
 module.exports = router
-
-//Take user input, format input into two separate variables

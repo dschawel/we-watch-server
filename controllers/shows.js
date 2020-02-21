@@ -28,6 +28,7 @@ router.get('/', (req, res) => {
     })
     .catch(err => {
         console.log('error', err)
+        res.status(400).send({message: 'Error fetching your shows!'})
     })
 })
 
@@ -53,7 +54,7 @@ router.delete('/:showId', (req, res) => {
     db.Show.remove({ user: req.user._id, _id: req.params.showId })
     .then(() => {
         console.log('success?')
-        res.send({message: 'Success'})
+        res.send({ message: 'Success' })
     })
     .catch(err => {
         console.log('Error when deleting show')
