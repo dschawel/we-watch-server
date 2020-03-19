@@ -32,7 +32,7 @@ router.get('/', (req, res) => {
     })
 })
 
-// Add a show 
+// Add a show to queue
 router.post('/', (req, res) => {
     db.Show.create({
         title: req.body.title,
