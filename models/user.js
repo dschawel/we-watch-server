@@ -26,8 +26,20 @@ let userSchema = new mongoose.Schema({
 })
 
 // Use bcrypt to hash password
+// userSchema.pre('save', function (next) {
+//   this.password = bcrypt.hashSync(this.password, 12)
+//   next()
+// })
+// Create a helper function to compare the password hashes
 userSchema.pre('save', function (next) {
-  this.password = bcrypt.hashSync(this.password, 12)
+  console.log('Pre save function. mod:', this.isModified(), "isNew:", this.isNew)
+  console.log('length of password', this.password.length)
+  if(this.isNew){
+    console.log('It was new, HASH NOW')
+    // New, as opposed to modified
+    this.password = bcrypt.hashSync(this.password, 12)
+  }
+  console.log('Passed the if statement')
   next()
 })
 
