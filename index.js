@@ -6,6 +6,7 @@ let expressJwt = require('express-jwt')
 // let graphqlHTTP = require('express-graphql')
 let morgan = require('morgan')
 let rowdyLogger = require('rowdy-logger')
+// const mongoose = require('mongoose');
 
 const bodyParser = require('body-parser')
 
@@ -13,6 +14,17 @@ const bodyParser = require('body-parser')
 
 // Instantiate app
 let app = express()
+
+// mongoose.connect(process.env.MONGO_URI, {
+//   dbName: 'WeWatch1',
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useCreateIndex: true,
+//   useFindAndModify: false
+// }).then(()=>{
+//    console.log(`👑You've connected to the one DB to rule them all 👑`); 
+//   });
+
 let rowdyResults = rowdyLogger.begin(app)
 
 // Set up middleware
