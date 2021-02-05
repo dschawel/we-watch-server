@@ -1,72 +1,46 @@
 // Require needed packages
+// Require needed packages
 require('dotenv').config()
 let cors = require('cors')
 let express = require('express')
-let expressJwt = require('express-jwt')
-// let graphqlHTTP = require('express-graphql')
-let morgan = require('morgan')
-let rowdyLogger = require('rowdy-logger')
-// const mongoose = require('mongoose');
-
-const bodyParser = require('body-parser')
-
-// let schema = require('./schema/schema')
+let expressJwt = require('express-jwt') //enables accessing user data in token through user.body (like Passport did in sequelize)
+let morgan = require('morgan') //logs route that was accessed in browser in console
+let rowdyLogger = require('rowdy-logger') //creates table of methods and routes in console
 
 // Instantiate app
 let app = express()
-
-// mongoose.connect(process.env.MONGO_URI, {
-//   dbName: 'WeWatch1',
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useCreateIndex: true,
-//   useFindAndModify: false
-// }).then(()=>{
-//    console.log(`👑You've connected to the one DB to rule them all 👑`); 
-//   });
-
 let rowdyResults = rowdyLogger.begin(app)
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200,
-}
 
 // Set up middleware
-app.use(morgan('dev'))
-app.use(cors(corsOptions))
-app.use(express.urlencoded({ extended: false })) // Accept form data
-app.use(express.json()) // Accept data from fetch (or any AJAX call)
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use(morgan('dev')) //middel-ware bc continuously tracks route calls
+app.use(cors())
+app.use(express.urlencoded({ extended: false })) //Accept form data
+app.use(express.json()) //Accept data from fetch (or any AJAX call)
 
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
 // Routes
-// app.use('/graphql', graphqlHTTP({
-//   schema,
-//   graphiql: true
-// }))
-
-app.use('/auth', expressJwt({ 
+app.use('/auth', expressJwt({
   secret: process.env.JWT_SECRET
-  }).unless({ // unless defines exceptions to the rule
-    path: [
+}).unless({  // w/o 'unless' function, the expressJWT would prevent public access to all routes in controller
+  path: [
     { url: '/auth/login', methods: ['POST'] },
     { url: '/auth/signup', methods: ['POST'] }
   ]
 }), require('./controllers/auth'))
 
+app.use('/auth', expressJwt({
+  secret: process.env.JWT_SECRET
+}).unless({ // unless defines exceptions to the rule
+  path: [
+    { url: '/auth/login', methods: ['POST'] },
+    { url: '/auth/signup', methods: ['POST'] }
+  ]
+}), require('./controllers/auth'))
 app.use('/shows', expressJwt({
   secret: process.env.JWT_SECRET
 }), require('./controllers/shows'))
-
 app.use('/friends', expressJwt({
   secret: process.env.JWT_SECRET
 }), require('./controllers/friends'))
-
 app.get('*', (req, res) => {
   res.status(404).send({ message: 'Not Found' })
 })
